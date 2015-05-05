@@ -134,19 +134,25 @@
     text-align: right;
 
     div {
-        height: 20px;
+        height: 17px;
         padding-right: 5px;
         border: 2px solid $darkGray;
     }
     .score {
         flex: 2;
         width: 100px;
+        overflow: hidden;
+        word-break: break-all;
+        word-wrap: break-word;
     }
 
     .stake {
         margin-left: 5%;
         width: 50px;
         flex: 1;
+        overflow: hidden;
+        word-break: break-all;
+        word-wrap: break-word;
     }
 
     .info {
