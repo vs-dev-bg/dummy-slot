@@ -18,6 +18,10 @@
             font-weight: bold;
             border: none;
             border-radius: 6px;
+
+            &:first-of-type {
+                margin-left: 0;
+            }
         }
     }
 }

@@ -2,35 +2,35 @@
     "use strict";
 
     var column = document.getElementsByClassName('wheel'),
-        logo = document.getElementsByClassName('logo')[0],
-        spinBtn = document.getElementById('spin'),
-        creditBtn = document.getElementById('credit'),
-        resetBtn = document.getElementById('reset'),
-        score = document.querySelector('#numbers > .score'),
-        stake = document.querySelector('#numbers > .stake'),
-        winTableCol = document.getElementsByClassName('column'),
-        wheel = {
-            left: {
-                last: null,
-                route: 0
-            },
-            center: {
-                last: null,
-                route: 0
-            },
-            right: {
-                last: null,
-                route: 0
-            }
+    logo = document.getElementsByClassName('logo')[0],
+    spinBtn = document.getElementById('spin'),
+    creditBtn = document.getElementById('credit'),
+    resetBtn = document.getElementById('reset'),
+    score = document.querySelector('#numbers > .score'),
+    stake = document.querySelector('#numbers > .stake'),
+    winTableCol = document.getElementsByClassName('column'),
+    wheel = {
+        left: {
+            last: null,
+            route: 0
         },
-        winTable = {
-            left: [0, 3, 1, 5, 2, 4, 0],
-            center: [2, 5, 0, 3, 4, 1, 2],
-            right: [4, 1, 2, 5, 3, 0, 4]
+        center: {
+            last: null,
+            route: 0
         },
-        creditStake = 300,
-        stakePerPlay = 5,
-        spins = 0;
+        right: {
+            last: null,
+            route: 0
+        }
+    },
+    winTable = {
+        left: [0, 3, 1, 5, 2, 4, 0],
+        center: [2, 5, 0, 3, 4, 1, 2],
+        right: [4, 1, 2, 5, 3, 0, 4]
+    },
+    creditStake = 300,
+    stakePerPlay = 5,
+    spins = 0;
 
     function getName(element) {
         var name = element.className.split(" ");
@@ -78,6 +78,10 @@
         }
     }
 
+    function haveMoney() {
+        return parseInt(stake.innerHTML) > 0;
+    }
+
     function spinEnd() {
         var evt = document.createEvent("Event");
         evt.initEvent("spinEnd", true, true);
@@ -87,7 +91,7 @@
     function onSpinEnd() {
         if (spins == 3) {
             if (winTable.left[wheel.left.last] == winTable.center[wheel.center.last] &&
-                winTable.center[wheel.center.last] == winTable.right[wheel.right.last]) {
+                    winTable.center[wheel.center.last] == winTable.right[wheel.right.last]) {
                 win(winTable.right[wheel.right.last]);
             }
             spins = 0;
@@ -122,9 +126,9 @@
 
     function animNumbers(el, num, positive) {
         var i = 0,
-            part = num > 5 ? 10 : 1,
-            chunk = positive ? + part : -part,
-            timeout;
+        part = num > 5 ? 10 : 1,
+        chunk = positive ? + part : -part,
+        timeout;
 
         timeout = setInterval(function () {
             if (i < num) {
@@ -139,17 +143,22 @@
     function spinHandler() {
         removeButtonListeners();
 
-        var itemHeight = column[0].children[0].offsetHeight,
+        if (haveMoney()) {
+            var itemHeight = column[0].children[0].offsetHeight,
             itemsLength = column[0].children.length - 1;
 
-        wheel.left.route = 0;
-        wheel.center.route = 0;
-        wheel.right.route = 0;
+            wheel.left.route = 0;
+            wheel.center.route = 0;
+            wheel.right.route = 0;
 
-        animNumbers(stake, stakePerPlay, false);
-        anim(wheel.left.last ? wheel.left.last * itemHeight : 0, column[0], itemsLength, itemHeight, randomize(0, itemsLength), randomize(2, 5));
-        anim(wheel.center.last ? wheel.center.last * itemHeight : 0, column[1], itemsLength, itemHeight, randomize(0, itemsLength), randomize(2, 5));
-        anim(wheel.right.last ? wheel.right.last * itemHeight : 0, column[2], itemsLength, itemHeight, randomize(0, itemsLength), randomize(2, 5));
+            animNumbers(stake, stakePerPlay, false);
+            anim(wheel.left.last ? wheel.left.last * itemHeight : 0, column[0], itemsLength, itemHeight, randomize(0, itemsLength), randomize(2, 5));
+            anim(wheel.center.last ? wheel.center.last * itemHeight : 0, column[1], itemsLength, itemHeight, randomize(0, itemsLength), randomize(2, 5));
+            anim(wheel.right.last ? wheel.right.last * itemHeight : 0, column[2], itemsLength, itemHeight, randomize(0, itemsLength), randomize(2, 5));
+        } else {
+            alert(" You DON'T have enough money.\n Hit credit button");
+            addButtonListeners();
+        }
     }
 
     function addButtonListeners() {

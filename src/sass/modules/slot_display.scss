@@ -139,20 +139,20 @@
         border: 2px solid $darkGray;
     }
     .score {
+        flex: 2;
+        width: 100px;
         overflow: hidden;
         word-break: break-all;
         word-wrap: break-word;
-        flex: 2;
-        width: 100px;
     }
 
     .stake {
-        overflow: hidden;
-        word-break: break-all;
-        word-wrap: break-word;
         margin-left: 5%;
         width: 50px;
         flex: 1;
+        overflow: hidden;
+        word-break: break-all;
+        word-wrap: break-word;
     }
 
     .info {
